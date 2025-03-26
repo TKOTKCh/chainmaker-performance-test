@@ -1,0 +1,12 @@
+2025/03/03 22:33:21 Init.go:175: ====================== 可配置参数 ======================
+2025/03/03 22:33:21 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/03 22:33:21 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/03 22:33:21 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/03 22:36:50 Init.go:175: ====================== 可配置参数 ======================
+2025/03/03 22:36:50 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/03 22:36:50 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/03 22:36:50 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/03 22:39:18 Init.go:175: ====================== 可配置参数 ======================
+2025/03/03 22:39:18 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/03 22:39:18 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/03 22:39:18 Init.go:201: ====================== 安装存证合约 ======================

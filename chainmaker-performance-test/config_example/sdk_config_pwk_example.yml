@@ -1,0 +1,21 @@
+chain_client:
+  archive:
+    dest: root:123456:localhost:3306
+    secret_key: xxx
+    type: mysql
+  auth_type: permissionedWithKey
+  chain_id: chain1
+  crypto:
+    hash: SHA256
+  nodes:
+    - conn_cnt: 10
+      node_addr: 10.112.113.215:12301
+  org_id: wx-org1.chainmaker.org
+  retry_interval: 500
+  retry_limit: 10
+  rpc_client:
+    get_tx_timeout: 60
+    max_receive_message_size: 16
+    max_send_message_size: 16
+    send_tx_timeout: 60
+  user_sign_key_file_path: ./build/config/node1/admin/admin.key

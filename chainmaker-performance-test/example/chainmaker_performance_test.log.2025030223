@@ -1,0 +1,41 @@
+2025/03/02 23:06:16 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:06:16 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:06:16 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:06:16 Init.go:106: 安装智能合约失败:read sdk config file failed, init config failed, Load sdk config failed, open ./config/sdk_config4.yml: no such file or directory
+2025/03/02 23:08:14 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:08:14 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:08:14 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:08:14 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:12:06 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:12:06 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:12:06 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:12:06 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:20:52 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:20:52 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:20:52 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:20:52 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:22:12 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:22:12 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:22:12 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:22:12 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:30:32 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:30:32 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:30:32 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:30:32 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:34:05 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:34:05 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:34:05 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:34:05 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:35:53 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:35:53 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:35:53 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:35:53 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:39:13 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:39:13 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:39:13 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:39:13 Init.go:106: 安装智能合约失败:read user crt file failed, open ./build/config/node4/user/client1/client1.tls.crt: no such file or directory
+2025/03/02 23:41:11 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 23:41:11 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 23:41:11 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:5, SleepTime:100, ClimbTime:5}
+2025/03/02 23:41:11 Init.go:201: ====================== 安装存证合约 ======================
+2025/03/02 23:41:11 Init.go:303: read key file failed, open /home/chenhang/WorkSpace/chainmaker-test-toolkit-master/chainmaker-performance-test/build/config/node1/user/admin1/admin1.sign.key: no such file or directory

@@ -1,0 +1,31 @@
+chain_information:
+  model: "PermissionWithCert"
+contract_configurable_parameters:
+#  contract_method: "save"
+#  contract_name: "flaim001"
+#  contract_type: Claim
+#  params: "file_hash:aaaaaaaaaaaaa||file_name:bbbbbbbbbbbbb||time:1234567"
+
+#  contract_method: "addWriteList"
+#  contract_name: "identity"
+#  contract_type: identity
+#  params: ""
+#  runtime_type: "DOCKER_GO"
+
+
+  contract_method: "buyNow"
+  contract_name: "exchange"
+
+  # contract_type暂时填合约名称，这个参数向后续用作wasm的区分
+  contract_type: exchange
+  params: ""
+  runtime_type: "WASMER"
+
+pressure_configurable_parameters:
+  climb_time: 0
+  loop_num: 1
+  # 总并发量是loop_num*thread_num*clientslen, add_option用于找极限loop_num即最大tps（并发量太小测出来tps比较低），设置成yes时，每次压测loopnum+10
+  # add_option设置成“no”即固定loop_num，对单一并发量进行反复测试取平均
+  add_option: "no"
+  sleep_time: 0
+  thread_num: 100

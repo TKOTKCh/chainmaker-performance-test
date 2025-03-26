@@ -1,0 +1,6 @@
+[build]
+target = "wasm32-unknown-unknown"
+
+[net]
+retry = 2 # network retries
+git-fetch-with-cli = true # use the `git` executable for git operations

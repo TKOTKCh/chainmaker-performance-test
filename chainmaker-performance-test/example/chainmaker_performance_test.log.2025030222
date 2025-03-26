@@ -1,0 +1,6 @@
+2025/03/02 22:52:39 Init.go:123: 打开文件失败:open ./config/clients.yml: no such file or directory
+2025/03/02 22:54:12 Init.go:123: 打开文件失败:open ./config/clients.yml: no such file or directory
+2025/03/02 22:56:06 Init.go:175: ====================== 可配置参数 ======================
+2025/03/02 22:56:06 Init.go:176: config.ContractParameters: &parallel.ContractParameters{ContractName:"claim001", ContractType:"Claim", RuntimeType:"WASMER", ContractMethod:"save", Params:"fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc"}
+2025/03/02 22:56:06 Init.go:177: config.PressureParameters: &parallel.PressureParameters{ThreadNum:100, LoopNum:100, SleepTime:100, ClimbTime:5}
+2025/03/02 22:56:06 Init.go:106: 安装智能合约失败:read sdk config file failed, init config failed, Load sdk config failed, open ./config/sdk_config4.yml: no such file or directory

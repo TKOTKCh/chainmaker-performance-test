@@ -1,0 +1,21 @@
+chain_client:
+  archive:
+    dest: root:123456:localhost:3306
+    secret_key: xxx
+    type: mysql
+  chain_id: chain1
+  nodes:
+  - conn_cnt: 10
+    enable_tls: true
+    node_addr: localhost:12302
+    tls_host_name: chainmaker.org
+    trust_root_paths:
+    - /home/chenhang/WorkSpace/chainmaker-test-toolkit-master/chainmaker-performance-test/build/config/node2/ca/wx-org2.chainmaker.org
+  org_id: wx-org2.chainmaker.org
+  rpc_client:
+    max_receive_message_size: 1000
+    max_send_message_size: 1000
+  user_crt_file_path: /home/chenhang/WorkSpace/chainmaker-test-toolkit-master/chainmaker-performance-test/build/config/node2/user/client1/client1.tls.crt
+  user_key_file_path: /home/chenhang/WorkSpace/chainmaker-test-toolkit-master/chainmaker-performance-test/build/config/node2/user/client1/client1.tls.key
+  user_sign_crt_file_path: /home/chenhang/WorkSpace/chainmaker-test-toolkit-master/chainmaker-performance-test/build/config/node2/user/client1/client1.sign.crt
+  user_sign_key_file_path: /home/chenhang/WorkSpace/chainmaker-test-toolkit-master/chainmaker-performance-test/build/config/node2/user/client1/client1.sign.key

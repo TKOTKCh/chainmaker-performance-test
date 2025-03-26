@@ -1,0 +1,13 @@
+chain_information:
+  model: PermissionWithCert
+contract_configurable_parameters:
+  contract_method: save
+  contract_name: claim001
+  contract_type: Claim
+  runtime_type: WASMER
+  params: fileName:aaaaaaaaaaaaa||fileHash:bbbbbbbbbbbbb||fileTime:cccccccccccccc
+pressure_configurable_parameters:
+  climb_time: 5
+  loop_num: 100
+  sleep_time: 100
+  thread_num: 100
