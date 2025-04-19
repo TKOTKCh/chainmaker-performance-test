@@ -25,18 +25,6 @@ const (
 //
 //go:wasmexport init_contract
 func InitContract() {
-
-}
-
-// 升级合约时会执行此方法
-//
-//go:wasmexport upgrade
-func Upgrade() {
-
-}
-
-//go:wasmexport manualInit
-func manualInit() {
 	ctx := NewSimContext()
 	// 获取参数
 	adminAddress, err := ctx.ArgString(paramAdminAddress)
@@ -46,6 +34,14 @@ func manualInit() {
 	}
 	adminAddresses := strings.Split(adminAddressStr, ",")
 	initContract(adminAddresses)
+}
+
+// 升级合约时会执行此方法
+//
+//go:wasmexport upgrade
+func Upgrade() {
+	ctx := NewSimContext()
+	ctx.SuccessResult("Upgrade contract success")
 }
 
 // 这个函数不暴露给wasmer，InitContract暴露
@@ -90,7 +86,7 @@ func addWriteList() {
 		//其实ctx可以直接存string，但dockergo的sdk存的byte
 		ctx.PutState("identity", address, "1")
 	}
-	ctx.SuccessResult("add write list")
+	ctx.SuccessResult("add write list success")
 	return
 }
 

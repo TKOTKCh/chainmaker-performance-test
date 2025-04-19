@@ -55,6 +55,13 @@ const (
 	ContractMethodKvIteratorNextLen = "KvIteratorNextLen"
 	ContractMethodKvIteratorNext    = "KvIteratorNext"
 	ContractMethodKvIteratorClose   = "KvIteratorClose"
+
+	// keyHistoryKvIterator method
+	ContractHistoryKvIterator        = "HistoryKvIterator"
+	ContractHistoryKvIteratorHasNext = "HistoryKvIterHasNext"
+	ContractHistoryKvIteratorNextLen = "HistoryKvIterNextLen"
+	ContractHistoryKvIteratorNext    = "HistoryKvIterNext"
+	ContractHistoryKvIteratorClose   = "HistoryKvIterClose"
 	// sql
 	ContractMethodExecuteQuery       = "ExecuteQuery"
 	ContractMethodExecuteQueryOne    = "ExecuteQueryOne"
@@ -98,6 +105,7 @@ type SimContextCommon interface {
 	CallContract(contractName string, method string, param map[string][]byte) ([]byte, ResultCode)
 	// GetCreatorOrgId get tx creator org id
 	GetCreatorOrgId() (string, ResultCode)
+
 	// GetCreatorRole get tx creator role
 	GetCreatorRole() (string, ResultCode)
 	// GetCreatorPk get tx creator pk
@@ -145,6 +153,12 @@ type SimContext interface {
 	NewIteratorPrefixWithKeyField(key string, field string) (ResultSetKV, ResultCode)
 	// NewIteratorPrefixWithKey range of [key, key], front closed back closed
 	NewIteratorPrefixWithKey(key string) (ResultSetKV, ResultCode)
+	// NewHistoryKvIterForKey query all historical data of key, field
+	// @param1: 查询历史的key
+	// @param2: 查询历史的field
+	// @return1: 根据key, field 生成的历史迭代器
+	// @return2: 获取错误信息
+	NewHistoryKvIterForKey(startKey string, startField string) (KeyHistoryKvIter, ResultCode)
 }
 
 type SimContextCommonImpl struct {
@@ -563,6 +577,7 @@ func Args() []*EasyCodecItem {
 
 func (s *SimContextImpl) newIterator(startKey string, startField string, limitKey string, limitField string) (ResultSetKV, ResultCode) { //main.go中调用
 	ec := NewEasyCodec()
+
 	ec.AddString("start_key", startKey)
 	ec.AddString("start_field", startField)
 	ec.AddString("limit_key", limitKey)
@@ -587,7 +602,17 @@ func (s *SimContextImpl) NewIteratorPrefixWithKeyField(startKey string, startFie
 	index, code := GetInt32FromChain(ec, ContractMethodKvPreIterator)
 	return &ResultSetKvImpl{index}, code
 }
-
+func (s *SimContextImpl) NewHistoryKvIterForKey(startKey string, startField string) (KeyHistoryKvIter, ResultCode) {
+	ec := NewEasyCodec()
+	ec.AddString("start_key", startKey)
+	ec.AddString("start_field", startField)
+	index, code := GetInt32FromChain(ec, ContractHistoryKvIterator)
+	return &KeyHistoryKvIterImpl{
+		key:   startKey,
+		field: startField,
+		index: index,
+	}, code
+}
 func (s *SimContextImpl) NewIteratorPrefixWithKey(key string) (ResultSetKV, ResultCode) {
 	return s.NewIteratorPrefixWithKeyField(key, "")
 }
@@ -631,4 +656,61 @@ func (r *ResultSetKvImpl) Next() (string, string, []byte, ResultCode) {
 	field, _ := ec.GetString("field")
 	v, _ := ec.GetBytes("value")
 	return k, field, v, code
+}
+
+type KeyHistoryKvIterImpl struct {
+	key   string
+	field string
+	index int32
+}
+
+func (k *KeyHistoryKvIterImpl) HasNext() bool {
+	ec := NewEasyCodec()
+	ec.AddInt32("ks_index", k.index)
+	data, _ := GetInt32FromChain(ec, ContractHistoryKvIteratorHasNext)
+	return data != 0
+}
+
+func (k *KeyHistoryKvIterImpl) NextRow() (*EasyCodec, ResultCode) {
+	ec := NewEasyCodec()
+	ec.AddInt32("ks_index", k.index)
+	bytes, code := GetBytesFromChain(ec, ContractHistoryKvIteratorNextLen, ContractHistoryKvIteratorNext)
+	if code != SUCCESS {
+		return nil, ERROR
+	}
+	ec = NewEasyCodecWithBytes(bytes)
+	return ec, code
+}
+
+func (k *KeyHistoryKvIterImpl) Close() (bool, ResultCode) {
+	ec := NewEasyCodec()
+	ec.AddInt32("ks_index", k.index)
+	data, code := GetInt32FromChain(ec, ContractHistoryKvIteratorClose)
+	return data != 0, code
+}
+
+func (k *KeyHistoryKvIterImpl) Next() (*KeyModification, ResultCode) {
+	ec, code := k.NextRow()
+	if code != SUCCESS {
+		return nil, ERROR
+	}
+	value, _ := ec.GetBytes("value")
+	txId, _ := ec.GetString("txId")
+	blockHeight, _ := ec.GetInt32("blockHeight")
+	isDeleteBool, _ := ec.GetInt32("isDelete")
+	timestamp, _ := ec.GetString("timestamp")
+	isDelete := false
+	if isDeleteBool == 1 {
+		isDelete = true
+	}
+
+	return &KeyModification{
+		Key:         k.key,
+		Field:       k.field,
+		Value:       value,
+		TxId:        txId,
+		BlockHeight: int(blockHeight),
+		IsDelete:    isDelete,
+		Timestamp:   timestamp,
+	}, code
 }

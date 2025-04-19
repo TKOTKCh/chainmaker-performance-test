@@ -13,12 +13,14 @@ const (
 func InitContract() {
 	ctx := NewSimContext()
 	ctx.SuccessResult("Init contract success")
+	return
 }
 
 //go:wasmexport upgrade
 func Upgrade() {
 	ctx := NewSimContext()
 	ctx.SuccessResult("Upgrade contract success")
+	return
 }
 
 //go:wasmexport buyNow
@@ -32,6 +34,7 @@ func buyNow() {
 
 	if tokenId == "" || from == "" || to == "" {
 		ctx.ErrorResult("tokenId/from/to should not be empty")
+		return
 	}
 
 	// 添加白名单
@@ -41,7 +44,8 @@ func buyNow() {
 	resp, code := ctx.CallContract("identity", "addWriteList", args)
 	if code != SUCCESS || string(resp) != "add write list success" {
 		ctx.Log("[buyNow] addWriteList failed: " + string(resp))
-		ctx.ErrorResult("[buyNow] addWriteList failed")
+		ctx.ErrorResult("[buyNow] addWriteList failed" + " " + string(resp))
+		return
 	}
 
 	// 检查from是否在白名单
@@ -49,6 +53,7 @@ func buyNow() {
 	resp, code = ctx.CallContract("identity", "isApprovedUser", args)
 	if code != SUCCESS || string(resp) != trueString {
 		ctx.ErrorResult("address[" + from + "] not registered")
+		return
 	}
 
 	// 检查to是否在白名单
@@ -56,6 +61,7 @@ func buyNow() {
 	resp, code = ctx.CallContract("identity", "isApprovedUser", args)
 	if code != SUCCESS || string(resp) != trueString {
 		ctx.ErrorResult("address[" + to + "] not registered")
+		return
 	}
 
 	// 向from铸造 NFT
@@ -68,6 +74,7 @@ func buyNow() {
 	if code != SUCCESS || string(resp) != "mint success" {
 		ctx.Log("[buyNow] mint failed: " + string(resp))
 		ctx.ErrorResult("[buyNow] mint failed")
+		return
 	}
 
 	// 设置 from 的资产授权
@@ -78,6 +85,7 @@ func buyNow() {
 	if code != SUCCESS || string(resp) != "setApprovalForAll2 success" {
 		ctx.Log("[buyNow] setApprovalForAll2 failed: " + string(resp))
 		ctx.ErrorResult("[buyNow] setApprovalForAll2 failed")
+		return
 	}
 
 	// erc721 NFT 转移 from -> to
@@ -89,10 +97,12 @@ func buyNow() {
 	resp, code = ctx.CallContract("erc721", "transferFrom", args)
 	if code != SUCCESS || string(resp) != "transfer success" {
 		ctx.ErrorResult("erc721 transferFrom error: " + string(resp))
+		return
 	}
 	spender, _ := ctx.GetSenderPk()
 	ctx.EmitEvent("buyNow", from+to+spender)
 	ctx.SuccessResult("buyNow success")
+	return
 }
 
 func main() {}

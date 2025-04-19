@@ -54,20 +54,14 @@ type ItemVotesInfo struct {
 
 //go:wasmexport init_contract
 func InitContract() {
-
+	ctx := NewSimContext()
+	ctx.SuccessResult("Init contract success")
 }
 
 //go:wasmexport upgrade
 func Upgrade() {
-
-}
-
-//go:wasmexport manualInit
-func manualInit() {
 	ctx := NewSimContext()
-	ctx.SuccessResult("Init contract success")
-	return
-
+	ctx.SuccessResult("Upgrade contract success")
 }
 
 ///////////////////////// 核心业务函数 /////////////////////////
@@ -78,6 +72,7 @@ func issueProject() {
 
 	// 获取并解析参数
 	projectInfoBytes, _ := ctx.Arg(projectInfoArgKey)
+
 	if len(projectInfoBytes) == 0 {
 		ctx.ErrorResult("issueProject should have arg of " + projectInfoArgKey)
 		return
@@ -138,7 +133,7 @@ func vote() {
 
 	// 获取项目信息
 	projectInfoBytes, err := ctx.GetStateByte(projectInfoStoreKey, projectId)
-	if err != SUCCESS {
+	if err != SUCCESS || len(projectInfoBytes) == 0 {
 		ctx.ErrorResult("get project info from store failed")
 		return
 	}
@@ -170,7 +165,7 @@ func vote() {
 	}
 
 	// 记录投票详情
-	voteKey := fmt.Sprintf("%s_%s_%S", projectId, projectItemId, sender)
+	voteKey := fmt.Sprintf("%s_%s_%s", projectId, projectItemId, sender)
 	if err = ctx.PutState(projectVotesStoreMapKey, voteKey, trueString); err != SUCCESS {
 		ctx.ErrorResult("save vote detail failed")
 		return

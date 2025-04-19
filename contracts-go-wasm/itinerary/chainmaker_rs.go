@@ -24,7 +24,20 @@ type ResultSetKV interface {
 	// Next return key,field,value,code
 	Next() (string, string, []byte, ResultCode)
 }
-
+type KeyHistoryKvIter interface {
+	ResultSet
+	// Next return txId, blockHeight, timestamp, value, isDelete, error
+	Next() (*KeyModification, ResultCode)
+}
+type KeyModification struct {
+	Key         string
+	Field       string
+	Value       []byte
+	TxId        string
+	BlockHeight int
+	IsDelete    bool
+	Timestamp   string
+}
 type SqlSimContext interface {
 	SimContextCommon
 	// sql method

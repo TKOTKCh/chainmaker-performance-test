@@ -69,24 +69,18 @@ IP 地址是由一个叫互联网服务提供商，即 ISP 提供的，三层 IS
 --sync-result=true \
 --params="{}"
 
-
-./cmc client contract user invoke \
+./cmc client contract user create \
 --contract-name=itinerary \
---method=manualInit \
+--runtime-type=DOCKER_GO \
+--byte-code-path=./testdata/go-wasm-demo/itinerary.7z \
+--version=1.0 \
 --sdk-conf-path=./testdata/sdk_config.yml \
---params="{}" \
+--admin-key-file-paths=./testdata/crypto-config/wx-org1.chainmaker.org/user/admin1/admin1.sign.key,./testdata/crypto-config/wx-org2.chainmaker.org/user/admin1/admin1.sign.key,./testdata/crypto-config/wx-org3.chainmaker.org/user/admin1/admin1.sign.key \
+--admin-crt-file-paths=./testdata/crypto-config/wx-org1.chainmaker.org/user/admin1/admin1.sign.crt,./testdata/crypto-config/wx-org2.chainmaker.org/user/admin1/admin1.sign.crt,./testdata/crypto-config/wx-org3.chainmaker.org/user/admin1/admin1.sign.crt \
 --sync-result=true \
---result-to-string=true
-期望输出
-{
-  "contract_result": {
-    "gas_used": 2322220,
-    "result": "Init contract success"
-  },
-  "tx_block_height": 3,
-  "tx_id": "183497fb0345f7e4ca71aa5a094b3537de6ce1089f3049f8b6e02f30a89dc3e2",
-  "tx_timestamp": 1744186060
-}
+--params="{}"
+
+
 ```
 ### 1. 行程上报
 
@@ -202,62 +196,15 @@ IP 地址是由一个叫互联网服务提供商，即 ISP 提供的，三层 IS
 --params="{\"phone\":\"18892352495\"}" \
 --sync-result=true \
 --result-to-string=true
-```
 
-#### response:
+{
+  "contract_result": {
+    "gas_used": 4907059,
+    "result": "{\"code\":200,\"msg\":\"\",\"data\":{\"CN-Beijing-Beijing\":{\"field\":\"\",\"value\":{\"ip\":\"117.107.131.195\",\"city\":\"Beijing\",\"region\":\"Beijing\",\"country\":\"CN\",\"loc\":\"39.9075,116.3972\",\"org\":\"\",\"timezone\":\"Asia/Shanghai\",\"asn\":{\"asn\":\"AS4847\",\"name\":\"China Networks Inter-Exchange\",\"domain\":\"bta.net.cn\",\"route\":\"117.107.128.0/18\",\"type\":\"isp\"},\"company\":{\"name\":\"Beijing Sinnet Technology Co., Ltd.\",\"domain\":\"ghidc.net\",\"type\":\"business\"},\"privacy\":{\"vpn\":false,\"proxy\":false,\"tor\":false,\"relay\":false,\"hosting\":false,\"service\":\"\"},\"abuse\":{\"address\":\"Beijing, China\",\"country\":\"CN\",\"email\":\"ipas@cnnic.cn\",\"name\":\"Chen hao\",\"network\":\"117.107.128.0/17\",\"phone\":\"+86-13311166160\"},\"domains\":{\"total\":0,\"domains\":[]}},\"txId\":\"18377c646963b817ca6056ce235ee0c08a92fb8f76584d58971f6d9e6e37f1a1\",\"timestamp\":\"1745000149\",\"blockHeight\":3,\"key\":\"18892352495\"}}}"
+  },
+  "tx_block_height": 4,
+  "tx_id": "18377c646963b817ca6056ce235ee0c08a92fb8f76584d58971f6d9e6e37f1a1",
+  "tx_timestamp": 1745000151
+}
 
-```json
-[
-  {
-    "CN-Beijing-Beijing": {
-      "field": "",
-      "value": {
-        "ip": "117.107.131.195",
-        "city": "Beijing",
-        "region": "Beijing",
-        "country": "CN",
-        "loc": "39.9075,116.3972",
-        "org": "",
-        "timezone": "Asia/Shanghai",
-        "asn": {
-          "asn": "AS4847",
-          "name": "China Networks Inter-Exchange",
-          "domain": "bta.net.cn",
-          "route": "117.107.128.0/18",
-          "type": "isp"
-        },
-        "company": {
-          "name": "Beijing Sinnet Technology Co., Ltd.",
-          "domain": "ghidc.net",
-          "type": "business"
-        },
-        "privacy": {
-          "vpn": false,
-          "proxy": false,
-          "tor": false,
-          "relay": false,
-          "hosting": false,
-          "service": ""
-        },
-        "abuse": {
-          "address": "Beijing, China",
-          "country": "CN",
-          "email": "ipas@cnnic.cn",
-          "name": "Chen hao",
-          "network": "117.107.128.0/17",
-          "phone": "+86-13311166160"
-        },
-        "domains": {
-          "total": 0,
-          "domains": [
-          ]
-        }
-      },
-      "txId": "1720ec5606b42398ca2be955cfe213fd0094da835e3140f5bd08f8e7b5f969c8",
-      "timestamp": "2022-10-24 14:08:36.000",
-      "blockHeight": 8630,
-      "key": "18891401498"
-    }
-  }
-]
-```
+

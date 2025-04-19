@@ -18,35 +18,6 @@
 --sync-result=true \
 --params="{}"
 
-./cmc client contract user invoke \
---contract-name=identity \
---method=manualInit \
---sdk-conf-path=./testdata/sdk_config.yml \
---params="{}" \
---sync-result=true \
---result-to-string=true
-
-期望输出
-{
-  "contract_result": {
-    "contract_event": [
-      {
-        "contract_name": "identity",
-        "contract_version": "1.0",
-        "event_data": [
-          ""
-        ],
-        "topic": "alterAdminAddress",
-        "tx_id": "183496dcea2c6eb3ca5de57264af3757cd2b40e4513447db9780620f6291f435"
-      }
-    ],
-    "gas_used": 2655173,
-    "result": "Init contract success"
-  },
-  "tx_block_height": 3,
-  "tx_id": "183496dcea2c6eb3ca5de57264af3757cd2b40e4513447db9780620f6291f435",
-  "tx_timestamp": 1744184831
-}
 ```
 
 

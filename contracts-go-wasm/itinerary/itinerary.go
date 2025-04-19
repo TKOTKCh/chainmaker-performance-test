@@ -94,23 +94,16 @@ func ToResult(data interface{}) []byte {
 //
 //go:wasmexport init_contract
 func InitContract() {
-	//ctx := NewSimContext()
-	//ctx.SuccessResult("Init contract success")
+	ctx := NewSimContext()
+	ctx.SuccessResult("Init contract success")
 }
 
 // 升级合约
 //
 //go:wasmexport upgrade
 func Upgrade() {
-	//ctx := NewSimContext()
-	//ctx.SuccessResult("Upgrade contract success")
-}
-
-//go:wasmexport manualInit
-func manualInit() {
 	ctx := NewSimContext()
-	ctx.SuccessResult("Init contract success")
-
+	ctx.SuccessResult("Upgrade contract success")
 }
 
 // 保存行程数据
@@ -169,6 +162,56 @@ func queryHistory() {
 		ctx.ErrorResult("phone cannot be empty")
 	}
 	//缺少NewHistoryKvIterForKey
+	iter, err := ctx.NewHistoryKvIterForKey(phone, "")
+	if err != SUCCESS {
+		errMsg := fmt.Sprintf("new HistoryKvIter for key=[%s] failed, %s", phone, err)
+		ctx.ErrorResult(errMsg)
+		return
+	}
+	var itinerary Itinerary
+	recordMap := make(map[string]HistoryValue, 0)
+	for iter.HasNext() {
+		km, err := iter.Next()
+
+		if err != SUCCESS {
+			errMsg := "iterator failed to get the next element"
+			ctx.ErrorResult(errMsg)
+			// 避免出现EOF，暂时跳过
+			continue
+		}
+
+		err1 := json.Unmarshal(km.Value, &itinerary)
+		if err1 != nil {
+			errMsg := "json parse element error" + "," + err1.Error()
+			ctx.ErrorResult(errMsg)
+			continue
+		}
+
+		hv := &HistoryValue{
+			TxId:        km.TxId,
+			Timestamp:   km.Timestamp,
+			BlockHeight: km.BlockHeight,
+			Key:         km.Key,
+			Field:       km.Field,
+			Value:       itinerary,
+		}
+		location := itinerary.Country + "-" + itinerary.City + "-" + itinerary.Region
+		if record, ok := recordMap[location]; !ok {
+			recordMap[location] = *hv
+		} else {
+			// 只要最新行踪记录
+			if record.BlockHeight < km.BlockHeight {
+				recordMap[location] = *hv
+			}
+		}
+	}
+
+	closed, err := iter.Close()
+	if !closed || err != SUCCESS {
+		errMsg := fmt.Sprintf("iterator close failed")
+		ctx.ErrorResult(errMsg)
+	}
+	ctx.SuccessResult(string(ToResult(recordMap)))
 }
 
 // 空字符串检查

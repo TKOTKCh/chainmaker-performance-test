@@ -32,23 +32,16 @@ type Peoples struct {
 //
 //go:wasmexport init_contract
 func InitContract() {
-	//ctx := NewSimContext()
-	//ctx.SuccessResult("Init contract success")
+	ctx := NewSimContext()
+	ctx.SuccessResult("Init contract success")
 }
 
 // 升级合约
 //
 //go:wasmexport upgrade
 func Upgrade() {
-	//ctx := NewSimContext()
-	//ctx.SuccessResult("Upgrade contract success")
-}
-
-//go:wasmexport manualInit
-func manualInit() {
 	ctx := NewSimContext()
-	ctx.SuccessResult("Init contract success")
-
+	ctx.SuccessResult("Upgrade contract success")
 }
 
 // 批量注册参与者

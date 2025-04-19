@@ -6,9 +6,50 @@ import (
 	"io/ioutil"
 )
 
+const (
+	projectInfoArgKey       = "projectInfo"
+	projectIdArgKey         = "projectId"
+	projectItemIdArgKey     = "itemId"
+	projectInfoStoreKey     = "project"
+	projectItemsStoreMapKey = "projectItems"
+	projectVotesStoreMapKey = "projectVotes"
+	trueString              = "1"
+)
+
+type ProjectInfo struct {
+	Id        string      `json:"Id"`
+	PicUrl    string      `json:"PicUrl"`
+	Title     string      `json:"Title"`
+	StartTime string      `json:"StartTime"`
+	EndTime   string      `json:"EndTime"`
+	Desc      string      `json:"Desc"`
+	Items     []*ItemInfo `json:"Items"`
+}
+
+type ItemInfo struct {
+	Id     string `json:"Id"`
+	PicUrl string `json:"PicUrl"`
+	Desc   string `json:"Desc"`
+	Url    string `json:"Url"`
+}
+type ProjectInfoWrapper struct { // 新增外层结构体
+	ProjectInfo *ProjectInfo `json:"projectInfo"` // 注意字段名与 JSON 的 key 对应
+}
+type ProjectVotesInfo struct {
+	ProjectId string           `json:"ProjectId"`
+	ItemVotes []*ItemVotesInfo `json:"ItemVotes"`
+}
+
+type ItemVotesInfo struct {
+	ItemId     string   `json:"ItemId"`
+	VotesCount int      `json:"VotesCount"`
+	Voters     []string `json:"Voters"`
+}
+
 func main() {
-	methodName := "runtime_type"
-	wasmBytes, err := ioutil.ReadFile("../compute/compute-tinygo.wasm")
+
+	methodName := "Time2Sre"
+	wasmBytes, err := ioutil.ReadFile("./sum/sum-go.wasm")
 	if err != nil {
 		panic(fmt.Sprintf("Error reading WASM file: %v", err))
 	}
@@ -31,48 +72,31 @@ func main() {
 	}
 
 	instance, err := wasmer.NewInstance(module, importObject)
+
 	if err != nil {
 		panic(fmt.Sprintf("Error instantiating module: %v", err))
 	}
-
-	// 获取并执行 WASI start 函数
 	start, err := instance.Exports.GetWasiStartFunction()
 	if err != nil {
-		panic(fmt.Sprintf("Error getting WASI start function: %v", err))
-	}
-	start()
-	// 获取并执行 method 函数
-	method, err := instance.Exports.GetFunction(methodName)
-	if err != nil {
-		panic(fmt.Sprintf("Error getting %s function: %v", methodName, err))
+		fmt.Sprintf("Error getting WASI start function: %v", err)
+	} else {
+		start()
 	}
 
-	result, err := method()
-	if err != nil {
-		panic(fmt.Sprintf("Error calling %s function: %v", methodName, err))
+	for i := 0; i < 10; i++ {
+		// 获取并执行 WASI start 函数
+
+		// 获取并执行 method 函数
+		method, err := instance.Exports.GetFunction(methodName)
+
+		result, err := method()
+		if err != nil {
+			panic(fmt.Sprintf("Error calling %s function: %v", methodName, err))
+		}
+
+		fmt.Println(result)
 	}
 
-	fmt.Println(result) // 输出 3
-	//wasmBytes, _ := os.ReadFile("simple.wasm")
-	//
-	//engine := wasmer.NewEngine()
-	//store := wasmer.NewStore(engine)
-	//
-	//// Compiles the module
-	//module, err := wasmer.NewModule(store, wasmBytes)
-	//check(err)
-	//// Instantiates the module
-	//importObject := wasmer.NewImportObject()
-	//instance, err := wasmer.NewInstance(module, importObject)
-	//check(err)
-	//// Gets the `method` exported function from the WebAssembly instance.
-	//method, _ := instance.Exports.GetFunction(methodName)
-	//
-	//// Calls that exported function with Go standard values. The WebAssembly
-	//// types are inferred and values are casted automatically.
-	//result, _ := method(5, 37)
-	//
-	//fmt.Println(result) // 42!
 }
 func check(e error) {
 	if e != nil {

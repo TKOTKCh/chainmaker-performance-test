@@ -42,32 +42,6 @@ const (
 //
 //go:wasmexport init_contract
 func InitContract() {
-	//ctx := NewSimContext()
-	//err := updateErc721Info()
-	//if err != nil {
-	//	ctx.ErrorResult("Init contract failed")
-	//	return
-	//}
-	//ctx.SuccessResult("Init contract success")
-	//return
-}
-
-// 升级合约函数
-//
-//go:wasmexport upgrade
-func Upgrade() {
-	//ctx := NewSimContext()
-	//err := updateErc721Info()
-	//if err != nil {
-	//	ctx.ErrorResult("Upgrade contract failed")
-	//	return
-	//}
-	//ctx.SuccessResult("Upgrade contract success")
-	//return
-}
-
-//go:wasmexport manualInit
-func manualInit() {
 	ctx := NewSimContext()
 	err := updateErc721Info()
 	if err != nil {
@@ -76,7 +50,20 @@ func manualInit() {
 	}
 	ctx.SuccessResult("Init contract success")
 	return
+}
 
+// 升级合约函数
+//
+//go:wasmexport upgrade
+func Upgrade() {
+	ctx := NewSimContext()
+	err := updateErc721Info()
+	if err != nil {
+		ctx.ErrorResult("Upgrade contract failed")
+		return
+	}
+	ctx.SuccessResult("Upgrade contract success")
+	return
 }
 
 // 更新ERC721信息的内部函数
@@ -284,7 +271,6 @@ func setApprovalForAll2() {
 	}
 
 	approvedStr := trueString
-
 	key := operator + "_" + sender
 	if err := ctx.PutState(operatorApproveMapName, key, approvedStr); err != SUCCESS {
 		ctx.ErrorResult("set operator approve failed")
@@ -340,7 +326,6 @@ func transferFrom() {
 	// 执行转账
 	if transfer(from, to, tokenId) {
 		ctx.EmitEvent("transfer", from, to, tokenId.ToString())
-
 		ctx.SuccessResult("transfer success")
 		return
 	}
@@ -351,57 +336,57 @@ func transfer(from, to string, tokenId *safemath.SafeUint256) bool {
 	// 获取当前所有者
 	owner, err := ctx.GetState(tokenOwnerMapName, tokenId.ToString())
 	if err != SUCCESS {
-		ctx.ErrorResult("get owner failed")
+		//ctx.ErrorResult("get owner failed")
 		return false
 	}
 	if owner != from {
-		ctx.ErrorResult("ERC721: transfer from incorrect owner")
+		//ctx.ErrorResult("ERC721: transfer from incorrect owner")
 		return false
 	}
 	if !address.IsValidAddress(to) {
-		ctx.ErrorResult("ERC20: transfer to the invalid address")
+		//ctx.ErrorResult("ERC20: transfer to the invalid address")
 		return false
 	}
 	if address.IsZeroAddress(to) {
-		ctx.ErrorResult("ERC20: transfer to the zero address")
+		//ctx.ErrorResult("ERC20: transfer to the zero address")
 		return false
 	}
 	err = ctx.DeleteState(tokenApproveMapName, tokenId.ToString())
 	if err != SUCCESS {
-		ctx.ErrorResult(fmt.Sprintf("delete token approve failed, err"))
+		//ctx.ErrorResult(fmt.Sprintf("delete token approve failed, err"))
 		return false
 	}
 
 	// update "from" balance count
 	err1 := decreaseTokenCountByOne(from)
 	if err1 != nil {
-		ctx.ErrorResult(err1.Error())
+		//ctx.ErrorResult(err1.Error())
 		return false
 	}
 
 	// update "to" balance count
 	err1 = increaseTokenCountByOne(to)
 	if err1 != nil {
-		ctx.ErrorResult(err1.Error())
+		//ctx.ErrorResult(err1.Error())
 		return false
 	}
 
 	// update token owner
 	err1 = setTokenOwner(to, tokenId)
 	if err1 != nil {
-		ctx.ErrorResult(err1.Error())
+		//ctx.ErrorResult(err1.Error())
 		return false
 	}
 
 	err1 = setAccountToken(from, to, tokenId)
 	if err1 != nil {
-		ctx.ErrorResult(err1.Error())
+		//ctx.ErrorResult(err1.Error())
 		return false
 	}
 
 	err1 = setTokenLatestTxInfo(tokenId, from, to)
 	if err1 != nil {
-		ctx.ErrorResult(err1.Error())
+		//ctx.ErrorResult(err1.Error())
 		return false
 	}
 	return true
@@ -417,8 +402,8 @@ func isApprovedOrOwner(sender string, tokenId *safemath.SafeUint256) bool {
 	if owner == sender {
 		return true
 	}
-	if !isApprovedForAll(owner, sender) {
-		return false
+	if isApprovedForAll(owner, sender) {
+		return true
 	}
 	approvedTo, err := ctx.GetState(tokenApproveMapName, tokenId.ToString())
 	return approvedTo == sender
@@ -686,22 +671,22 @@ func getAccountTokens() {
 		ctx.ErrorResult("invalid account")
 		return
 	}
-	rs, err := ctx.NewIteratorPrefixWithKeyField(accountMapName, account)
+	rs, _ := ctx.NewIteratorPrefixWithKeyField(accountMapName, account)
 	ats := &accountTokens{
 		Account: account,
 		Tokens:  make([]string, 0),
 	}
 	for {
+
 		if !rs.HasNext() {
 			break
 		}
-		var item string
-		item, _, _, err = rs.Next()
+		_, field, _, err := rs.Next()
 		if err != SUCCESS {
 			ctx.ErrorResult(fmt.Sprintf("iterator next failed, err: %s", err))
 			return
 		}
-		itemId := strings.TrimPrefix(strings.TrimPrefix(item, accountMapName), account)
+		itemId := strings.Split(field, "_")[1]
 		if len(itemId) == 0 {
 			ctx.ErrorResult("invalid itemId")
 			return

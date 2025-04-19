@@ -17,24 +17,17 @@ import (
 //
 //go:wasmexport init_contract
 func InitContract() {
-	//ctx := NewSimContext()
-	//ctx.SuccessResult("Init contract success")
-
+	ctx := NewSimContext()
+	ctx.SuccessResult("Init contract success")
+	//fmt.Println("init contract test test")
 }
 
 // 升级合约时会执行此方法，必须
 //
 //go:wasmexport upgrade
 func Upgrade() {
-	//ctx := NewSimContext()
-	//ctx.SuccessResult("Upgrade contract success")
-
-}
-
-//go:wasmexport manualInit
-func manualInit() {
 	ctx := NewSimContext()
-	ctx.SuccessResult("Init contract success")
+	ctx.SuccessResult("Upgrade contract success")
 
 }
 
