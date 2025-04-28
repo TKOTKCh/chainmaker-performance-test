@@ -55,7 +55,7 @@ func hashCal() {
 
 	hashInput := "ChainMaker Performance Test"
 	var hashResult [32]byte
-	for i := 0; i < 100000; i++ {
+	for i := 0; i < 10000; i++ {
 		hashResult = sha256.Sum256([]byte(hashInput))
 	}
 	// 返回结果

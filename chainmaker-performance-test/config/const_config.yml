@@ -13,19 +13,24 @@ contract_configurable_parameters:
 #  runtime_type: "DOCKER_GO"
 
 
-  contract_method: "buyNow"
-  contract_name: "exchange"
-
+  contract_method: "hashCal"
+  contract_name: "compute"
+  file_name: "compute"
   # contract_type暂时填合约名称，这个参数向后续用作wasm的区分
-  contract_type: exchange
+  contract_type: go
   params: ""
   runtime_type: "WASMER"
 
 pressure_configurable_parameters:
   climb_time: 0
-  loop_num: 1
+  loop_num: 10
+  # 这个Clients1[k]，只是发送client身份而已，跟节点没关系，每个节点都会执行一遍
+  #	同时需注意在并发时计算的ThreadNum跟设置时设置thread_num的不一样，他是ThreadNum = ConfigurableParameter.PressureParameters.ThreadNum / Clientslen // 单次并发进程数,总并发进程/节点数
+  #	所以并发顺序执行次数时LoopNum*Clients*Clients*thread_num/Clients=LoopNum*Clients*thread_num
   # 总并发量是loop_num*thread_num*clientslen, add_option用于找极限loop_num即最大tps（并发量太小测出来tps比较低），设置成yes时，每次压测loopnum+10
+  # 对于单线程顺序执行是loop_num*clientslen*clientslen
   # add_option设置成“no”即固定loop_num，对单一并发量进行反复测试取平均
+  # 对于最后的TPS同样单线程顺序执行的话，最后的TPS和每个节点的TPS差不多，但是并发的话约等于所有节点TPS之和（因为并发的话是算的结束时间-开始时间）
   add_option: "no"
   sleep_time: 0
   thread_num: 100

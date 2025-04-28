@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"github.com/wasmerio/wasmer-go/wasmer"
 	"io/ioutil"
@@ -47,8 +48,8 @@ type ItemVotesInfo struct {
 }
 
 func main() {
-
-	methodName := "Time2Sre"
+	sha256.New()
+	methodName := "sum"
 	wasmBytes, err := ioutil.ReadFile("./sum/sum-go.wasm")
 	if err != nil {
 		panic(fmt.Sprintf("Error reading WASM file: %v", err))
@@ -89,7 +90,7 @@ func main() {
 		// 获取并执行 method 函数
 		method, err := instance.Exports.GetFunction(methodName)
 
-		result, err := method()
+		result, err := method(1, 2)
 		if err != nil {
 			panic(fmt.Sprintf("Error calling %s function: %v", methodName, err))
 		}
